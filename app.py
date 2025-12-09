@@ -13,6 +13,7 @@ import requests
 import zipfile
 import shutil
 import os
+from PIL import Image
 
 # Importamos el módulo personalizado
 # Nota: Asegúrate de que este archivo exista en tu carpeta local
@@ -416,11 +417,17 @@ def display_dummy_graph(active_font, active_palette, title="Demostración"):
 # --- HEADER ---
 col_logo, col_titulo = st.columns([1, 4])
 with col_logo:
-    logo_path = "C:/Users/EmmanuelRamírez/OneDrive - PhiQus/Documentos/Streamlit/recursos/logo.png"
+    # 1. Definimos la ruta relativa dinámicamente
+    # Esto busca la carpeta "recursos" al lado de donde está este archivo app.py
+    base_dir = Path(__file__).parent.resolve()
+    logo_path = str(base_dir / "recursos" / "logo.png")
+    
+    # 2. Verificamos y mostramos
     if Path(logo_path).exists():
         st.image(logo_path, use_container_width=True)
     else:
-        st.info("Logo no encontrado")
+        # Si falla, esto te dirá exactamente dónde lo está buscando Linux
+        st.error(f"Logo no encontrado en: {logo_path}")
 
 with col_titulo:
     st.markdown("<h2 style='text-align: right; margin:0;'>Automatización de estudios de mercado</h2>", unsafe_allow_html=True)
