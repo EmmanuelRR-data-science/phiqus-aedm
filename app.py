@@ -23,21 +23,6 @@ except ImportError:
 
 sys.path.append(".") 
 
-# --- CÓDIGO DE DIAGNÓSTICO (BORRAR LUEGO) ---
-import os
-st.write("📂 **Diagnóstico de Rutas:**")
-st.write(f"Directorio actual de trabajo: `{os.getcwd()}`")
-st.write(f"Ubicación del archivo app.py: `{Path(__file__).parent}`")
-
-if Path("recursos").exists():
-    st.success("✅ La carpeta 'recursos' SÍ existe.")
-    st.write("Archivos encontrados:", os.listdir("recursos"))
-else:
-    st.error("❌ La carpeta 'recursos' NO se encuentra.")
-    st.write("Contenido del directorio raíz:", os.listdir("."))
-st.divider()
-# -------------------------------------------
-
 # ---------------------------
 # Configuración de página
 # ---------------------------
@@ -210,9 +195,48 @@ RUTAS_LOCALIDAD = {
 # ---------------------------
 # CONFIGURACIÓN DE RUTAS Y ESTILOS
 # ---------------------------
-LOCAL_FONT_PATH = "C:/Users/EmmanuelRamírez/OneDrive - PhiQus/Documentos/Streamlit/recursos/ballingermono-light.ttf"
+from pathlib import Path
+import os
+
+# 1. Obtenemos la ruta absoluta de la carpeta donde está este script (app.py)
+# Esto devolverá algo como: /mount/src/phiqus-aedm
+BASE_DIR = Path(__file__).parent.resolve()
+
+# 2. Construimos las rutas a las carpetas 'recursos' y 'scripts'
+RECURSOS_DIR = BASE_DIR / "recursos"
+NOTEBOOK_DIR = BASE_DIR / "scripts"
+
+# 3. Definimos los archivos específicos
+# Usamos .resolve() para evitar ambigüedades en Linux
+LOCAL_FONT_PATH = str((RECURSOS_DIR / "ballingermono-light.ttf").resolve())
 LOCAL_FONT_NAME = "BallingerMono Light"
-NOTEBOOK_DIR = "C:/Users/EmmanuelRamírez/OneDrive - PhiQus/Documentos/Streamlit/scripts"
+
+logo_path = str((RECURSOS_DIR / "logo.png").resolve())
+
+# --- DEBUG SILENCIOSO (Opcional: verás esto en los logs de la consola de Streamlit Cloud) ---
+print(f"--> Ruta Base detectada: {BASE_DIR}")
+print(f"--> Buscando fuente en: {LOCAL_FONT_PATH}")
+print(f"--> Buscando logo en: {logo_path}")
+
+# 4. Función de carga de fuente (Sin cambios, solo para referencia)
+@st.cache_resource
+def load_local_font_css(font_path: str, font_family_name: str) -> str:
+    p = Path(font_path)
+    if not p.exists():
+        print(f"❌ Error: No se encontró la fuente en {font_path}") # Log de error
+        return ""
+    b64 = base64.b64encode(p.read_bytes()).decode()
+    return f"""
+    <style>
+    @font-face {{
+        font-family: '{font_family_name}';
+        src: url(data:font/ttf;base64,{b64}) format('truetype');
+        font-weight: 300 800;
+        font-style: normal;
+        font-display: swap;
+    }}
+    </style>
+    """
 
 @st.cache_resource
 def load_local_font_css(font_path: str, font_family_name: str) -> str:
