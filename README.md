@@ -26,3 +26,11 @@ La aplicación elimina la talacha manual de descargar Excel y redactar reportes,
 ## 🛠️ Arquitectura del Sistema
 
 El sistema utiliza un enfoque híbrido **Frontend (Streamlit)** + **Orquestador (n8n)**
+
+## 🌐 Demo en Vivo
+
+Puedes interactuar con la app en tiempo real y probar las funcionalidades sin necesidad de instalación:
+
+[![Open in Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://phiqus-aedm.streamlit.app/)
+
+🔗 **Link directo:** [https://phiqus-aedm.streamlit.app/](https://phiqus-aedm.streamlit.app/)
