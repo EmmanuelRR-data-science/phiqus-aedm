@@ -23,6 +23,21 @@ except ImportError:
 
 sys.path.append(".") 
 
+# --- CÓDIGO DE DIAGNÓSTICO (BORRAR LUEGO) ---
+import os
+st.write("📂 **Diagnóstico de Rutas:**")
+st.write(f"Directorio actual de trabajo: `{os.getcwd()}`")
+st.write(f"Ubicación del archivo app.py: `{Path(__file__).parent}`")
+
+if Path("recursos").exists():
+    st.success("✅ La carpeta 'recursos' SÍ existe.")
+    st.write("Archivos encontrados:", os.listdir("recursos"))
+else:
+    st.error("❌ La carpeta 'recursos' NO se encuentra.")
+    st.write("Contenido del directorio raíz:", os.listdir("."))
+st.divider()
+# -------------------------------------------
+
 # ---------------------------
 # Configuración de página
 # ---------------------------
