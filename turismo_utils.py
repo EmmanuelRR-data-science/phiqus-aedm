@@ -148,13 +148,30 @@ def generar_figuras(df_hist, data_men, estado, palette, font_family):
         
         rango = f"{df_hist['Año'].min()}-{df_hist['Año'].max()}"
         fig1.update_layout(
-            title=dict(text=f"Llegada de Turistas - {estado} ({rango})", x=0),
+            # === MODIFICACIÓN 1: Título Centrado ===
+            title=dict(
+                text=f"Llegada de Turistas - {estado} ({rango})", 
+                x=0.5, 
+                xanchor='center'
+            ),
             yaxis_title="Turistas",
             template="plotly_white",
             font=dict(family=font_family),
             height=450,
-            margin=dict(l=20, r=20, t=50, b=20)
+            # === MODIFICACIÓN 2: Margen inferior aumentado ===
+            margin=dict(l=20, r=20, t=50, b=100)
         )
+        
+        # === MODIFICACIÓN 3: Leyenda de Fuente ===
+        fig1.add_annotation(
+            text="Fuente: Datatur - Secretaría de Turismo (SECTUR)",
+            xref="paper", yref="paper",
+            x=0, y=-0.25,
+            showarrow=False,
+            xanchor='left', yanchor='top',
+            font=dict(size=11, color="gray", family=font_family)
+        )
+        
         figs['historico'] = fig1
 
     # --- GRÁFICA 2: MENSUAL ---
@@ -186,7 +203,12 @@ def generar_figuras(df_hist, data_men, estado, palette, font_family):
         ))
         
         fig2.update_layout(
-            title=dict(text=f"Actividad Hotelera (Últimos 12 Meses) - {estado}", x=0),
+            # === MODIFICACIÓN 1: Título Centrado ===
+            title=dict(
+                text=f"Actividad Hotelera (Últimos 12 Meses) - {estado}", 
+                x=0.5, 
+                xanchor='center'
+            ),
             yaxis_title="Cuartos",
             yaxis2=dict(title="%", overlaying="y", side="right", range=[0, 105], showgrid=False),
             barmode="group",
@@ -194,8 +216,20 @@ def generar_figuras(df_hist, data_men, estado, palette, font_family):
             font=dict(family=font_family),
             legend=dict(orientation="h", y=-0.2, x=0.5, xanchor="center"),
             height=550,
-            margin=dict(l=20, r=20, t=50, b=20)
+            # === MODIFICACIÓN 2: Margen inferior aumentado (b=130 para librar leyenda y fuente) ===
+            margin=dict(l=20, r=20, t=50, b=130)
         )
+        
+        # === MODIFICACIÓN 3: Leyenda de Fuente ===
+        fig2.add_annotation(
+            text="Fuente: Datatur - Secretaría de Turismo (SECTUR)",
+            xref="paper", yref="paper",
+            x=0, y=-0.35, # Debajo de la leyenda de series
+            showarrow=False,
+            xanchor='left', yanchor='top',
+            font=dict(size=11, color="gray", family=font_family)
+        )
+        
         figs['mensual'] = fig2
         
     return figs
