@@ -136,14 +136,32 @@ def get_grafica_ocupacion(dfs, estado, palette, font_family):
     ))
 
     fig.update_layout(
-        title=dict(text=f"Alojamiento: {estado}", x=0.5),
-        font=dict(family=font_family, size=14), # <--- FUENTE DE LA APP
+        # === MODIFICACIÓN 1: Título Centrado ===
+        title=dict(
+            text=f"Alojamiento: {estado}", 
+            x=0.5, 
+            xanchor='center'
+        ),
+        font=dict(family=font_family, size=14), 
         yaxis=dict(title="Cuartos", side="left", showgrid=False),
         yaxis2=dict(title="%", overlaying="y", side="right", range=[0, 100], showgrid=False),
         barmode="group",
         template="plotly_white",
-        legend=dict(orientation="h", y=-0.2),
-        margin=dict(l=50, r=50, t=50, b=50)
+        legend=dict(orientation="h", y=-0.2, x=0.5, xanchor='center'),
+        # === MODIFICACIÓN 2: Aumento de margen inferior (b=120) para la fuente ===
+        margin=dict(l=50, r=50, t=50, b=120) 
+    )
+
+    # === MODIFICACIÓN 3: Leyenda de Fuente (Inferior Izquierda) ===
+    fig.add_annotation(
+        text="Fuente: Datatur - Secretaría de Turismo (SECTUR)",
+        xref="paper", yref="paper",
+        x=0,      # Alineado a la izquierda
+        y=-0.35,  # Debajo de la leyenda y del gráfico (coordenada negativa)
+        showarrow=False,
+        xanchor='left',
+        yanchor='top',
+        font=dict(size=11, color="gray", family=font_family)
     )
     
     return fig
